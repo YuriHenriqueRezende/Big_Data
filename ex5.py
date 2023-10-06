@@ -1,4 +1,4 @@
-# Importe as bibliotecas necessárias
+'''# Importe as bibliotecas necessárias
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -25,3 +25,4 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f'Precisão do modelo: {accuracy * 100:.2f}%')
 
 # Agora você pode usar o modelo para classificar novas máquinas com base em suas características
+'''
