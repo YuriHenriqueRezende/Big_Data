@@ -1,27 +1,23 @@
-# Importe as bibliotecas necessárias
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn import tree
+from sklearn.preprocessing import LabelEncoder
 
-# Suponha que você tenha um DataFrame chamado 'data' com suas características e rótulos
-# Certifique-se de preparar seus dados adequadamente
+# Dados de entrada (características)
+velocidade_operacao = [10, 5, 8, 6, 12, 4]
+complexidade_tarefa = ['Baixa', 'Alta', 'Media', 'Alta', 'Baixa', 'Alta']
+manutencao_necessaria = ['Baixa', 'Alta', 'Media', 'Alta', 'Baixa', 'Media']
 
-# Divida o conjunto de dados em treinamento e teste
-X = data[['Idade', 'Manutencao', 'FalhasAnteriores', 'NivelAutomacao']]
-y = data['Seguranca']  # 'Seguranca' é o rótulo que indica "Segura" ou "Não Segura"
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Classificações
+classificacao = ['Montagem', 'Teste', 'Montagem', 'Teste', 'Montagem', 'Teste']
 
-# Crie o modelo de árvore de decisão
-model = DecisionTreeClassifier()
+label_encoder = LabelEncoder()
+complexidade_tarefa_encoded = label_encoder.fit_transform(complexidade_tarefa)
+manutencao_necessaria_encoded = label_encoder.fit_transform(manutencao_necessaria)
 
-# Treine o modelo com os dados de treinamento
-model.fit(X_train, y_train)
+caracteristicas = list(zip(velocidade_operacao, complexidade_tarefa_encoded, manutencao_necessaria_encoded))
 
-# Faça previsões usando o modelo
-y_pred = model.predict(X_test)
+modelo_arvore_decisao = tree.DecisionTreeClassifier()
+modelo_arvore_decisao.fit(caracteristicas, classificacao)
 
-# Calcule a precisão do modelo
-accuracy = accuracy_score(y_test, y_pred)
-print(f'Precisão do modelo: {accuracy * 100:.2f}%')
-
-# Agora você pode usar o modelo para classificar novas máquinas com base em suas características
+nova_maquina = [[7, label_encoder.transform(["Media"])[0], label_encoder.transform(["Baixa"])[0]]]
+previsao = modelo_arvore_decisao.predict(nova_maquina)
+print("A classificação da nova máquina é:", previsao)
